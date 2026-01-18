@@ -8,13 +8,13 @@ spring:
     gateway:
       discovery:
         locator:
-          enabled: true       # Typo fixed (was 'enable')
+          enabled: true
           lower-case-service-id: true
       routes:
         - id: uis-service-route
           uri: lb://UIS-SERVICE
           predicates:
-            - Path=/auth/** # This captures /auth/register AND /auth/all
+            - Path=/auth/**
 
 eureka:
   client:
