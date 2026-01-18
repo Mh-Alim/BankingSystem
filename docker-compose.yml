@@ -1,0 +1,38 @@
+version: '3.8'
+services:
+  # 1. PostgreSQL (For UIS Service - Relational Data)
+  postgres:
+    image: postgres:15
+    container_name: bank-postgres
+    environment:
+      POSTGRES_USER: bank_admin
+      POSTGRES_PASSWORD: secure_password
+      POSTGRES_DB: bank_auth_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # 2. MongoDB (For Notification Service - Logs/Templates)
+  mongodb:
+    image: mongo:6.0
+    container_name: bank-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  # 3. RabbitMQ (The Message Broker)
+  rabbitmq:
+    image: rabbitmq:3.11-management
+    container_name: bank-rabbitmq
+    ports:
+      - "5672:5672"   # For Java to talk to Rabbit
+      - "15672:15672" # The UI Dashboard
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+
+volumes:
+  postgres_data:
+  mongo_data:
